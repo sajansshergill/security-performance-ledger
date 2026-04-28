@@ -5,44 +5,7 @@ A production-grade financial data engineering pipeline that ingests securities d
 Build to reflect real-world data engineering practices at wealth managers, asset managers, and alternative data providers.
 
 ## Architecture
-┌─────────────────────────────────────────────────────────────────┐
-│                        Data Sources                             │
-│   OpenFIGI API     Refinitiv (simulated)     Bloomberg (stub)   │
-└────────┬──────────────────┬────────────────────────┬────────────┘
-         │                  │                        │
-         ▼                  ▼                        ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                   Ingestion Layer (Python)                      │
-│         Rate-limited API clients · Batch mapping · Retry        │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────────┐
-│               Identifier Resolution Layer                       │
-│     CUSIP / ISIN / FIGI / Ticker dedup · Conflict detection     │
-│     Confidence-weighted merge · Source-of-truth assignment      │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────────┐
-│              Snowflake Raw Layer  (COPY INTO / MERGE)           │
-│     RAW_SECURITIES_OPENFIGI  ·  RAW_SECURITIES_REFINITIV        │
-│     RAW_POSITIONS  ·  RAW_PERFORMANCE_EVENTS                    │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                     dbt Transformation                          │
-│  Staging → Intermediate → Dimensional Mart                      │
-│  stg_* → int_security_master → dim_security / fact_performance  │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                   Airflow Orchestration                         │
-│     security_master_dag  ·  performance_ledger_dag              │
-│     SLA alerts · retry policies · backfill support              │
-└─────────────────────────────────────────────────────────────────┘
+<img width="916" height="1316" alt="image" src="https://github.com/user-attachments/assets/08d52a07-57d2-4865-bae5-741f3d1eb75a" />
 
 ## Key Capabilities
 **Identifier Management**
