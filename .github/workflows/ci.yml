@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: ${{ github.workspace }}
+      SNOWFLAKE_ACCOUNT: dummy
+      SNOWFLAKE_USER: dummy
+      SNOWFLAKE_PASSWORD: dummy
+      SNOWFLAKE_DATABASE: SECURITY_MASTER
+      SNOWFLAKE_SCHEMA: RAW
+      SNOWFLAKE_WAREHOUSE: COMPUTE_WH
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Lint
+        run: |
+          black --check dags src tests
+          flake8 dags src tests
+
+      - name: Unit tests
+        run: pytest tests -v
+
+      - name: dbt compile
+        run: |
+          cd dbt
+          dbt deps
+          dbt compile --profiles-dir .

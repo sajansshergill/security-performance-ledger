@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: raw
+    database: "{{ env_var('SNOWFLAKE_DATABASE', 'SECURITY_MASTER') }}"
+    schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'RAW') }}"
+    tables:
+      - name: raw_securities_openfigi
+        identifier: RAW_SECURITIES_OPENFIGI
+      - name: raw_securities_refinitiv
+        identifier: RAW_SECURITIES_REFINITIV
+      - name: raw_securities_bloomberg
+        identifier: RAW_SECURITIES_BLOOMBERG
+      - name: raw_identifier_conflicts
+        identifier: RAW_IDENTIFIER_CONFLICTS
+      - name: int_security_master_staging
+        identifier: INT_SECURITY_MASTER_STAGING
+      - name: raw_positions
+        identifier: RAW_POSITIONS
+      - name: raw_nav_events
+        identifier: RAW_NAV_EVENTS

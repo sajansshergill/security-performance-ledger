@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: int_security_master
+    columns:
+      - name: master_id
+        tests:
+          - not_null
+          - unique
+      - name: cusip
+        tests:
+          - not_null
+
+  - name: dim_security
+    columns:
+      - name: security_key
+        tests:
+          - not_null
+          - unique
+      - name: cusip
+        tests:
+          - not_null
+
+  - name: fact_positions
+    columns:
+      - name: position_key
+        tests:
+          - not_null
+          - unique
+      - name: security_key
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_security')
+                field: security_key
+
+  - name: fact_performance
+    columns:
+      - name: performance_key
+        tests:
+          - not_null
+          - unique
+      - name: portfolio_id
+        tests:
+          - not_null

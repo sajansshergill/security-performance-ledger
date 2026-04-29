@@ -1,0 +1,9 @@
+apache-airflow==2.9.3
+black
+dbt-snowflake>=1.11,<1.12
+flake8
+pandas
+pytest
+requests
+snowflake-connector-python[pandas]>=4.2,<5
+streamlit

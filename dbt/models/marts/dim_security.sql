@@ -1,0 +1,23 @@
+select
+    master_id as security_key,
+    cusip,
+    isin,
+    figi,
+    composite_figi,
+    ticker,
+    security_name,
+    security_type,
+    market_sector,
+    currency,
+    exchange_code,
+    gics_sector,
+    gics_industry,
+    country,
+    asset_category,
+    source_of_truth,
+    sources_seen,
+    conflict_flags,
+    valid_from,
+    cast(null as timestamp_ntz) as valid_to,
+    true as is_current
+from {{ ref('int_security_master') }}
